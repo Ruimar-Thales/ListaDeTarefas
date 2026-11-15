@@ -55,8 +55,22 @@ function iniciarEdicao(id) {
     document.getElementById("desc").focus();
 }
 
+function atualizarContadores() {
+    const total = tarefas.length;
+    const concluidas = tarefas.filter(function (tarefa) {
+        return tarefa.concluida;
+    }).length;
+    const pendentes = total - concluidas;
+
+    document.getElementById("countTotal").textContent = total;
+    document.getElementById("countPending").textContent = pendentes;
+    document.getElementById("countDone").textContent = concluidas;
+}
+
 function renderizar() {
     tbody.innerHTML = "";
+
+    atualizarContadores();
 
     const tarefasFiltradas = tarefas.filter(function (tarefa) {
         if (filtroAtual === "pendentes") return !tarefa.concluida;
@@ -161,5 +175,6 @@ botoesFiltro.forEach(function (botao) {
         renderizar();
     });
 });
+
 
 renderizar();

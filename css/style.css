@@ -1,3 +1,7 @@
+.counter span {
+    margin-right: 16px;
+}
+
 .filtros .ativo {
     font-weight: bold;
     text-decoration: underline;
