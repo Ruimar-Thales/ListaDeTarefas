@@ -1,0 +1,4 @@
+.concluida td:not(:last-child) {
+    text-decoration: line-through;
+    color: gray;
+}

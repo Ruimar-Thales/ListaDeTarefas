@@ -1,6 +1,74 @@
 const form = document.querySelector("form");
 const tbody = document.getElementById("taskInfo");
 
+let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+
+function salvar() {
+    localStorage.setItem("tarefas", JSON.stringify(tarefas));
+}
+
+function excluirTarefa(id) {
+    tarefas = tarefas.filter(function (tarefa) {
+        return tarefa.id !== id;
+    });
+
+    salvar();
+    renderizar();
+}
+
+function alternarConclusao(id) {
+    tarefas = tarefas.map(function (tarefa) {
+        if (tarefa.id === id) {
+            tarefa.concluida = !tarefa.concluida;
+        }
+        return tarefa;
+    });
+
+    salvar();
+    renderizar();
+}
+
+function renderizar() {
+    tbody.innerHTML = ""; // limpa a tabela antes de redesenhar
+
+    tarefas.forEach(function (tarefa) {
+        const tr = document.createElement("tr");
+        if (tarefa.concluida) {
+            tr.classList.add("concluida");
+        }
+
+        const tdDesc = document.createElement("td");
+        tdDesc.textContent = tarefa.descricao;
+
+        const tdPrioridade = document.createElement("td");
+        tdPrioridade.textContent = tarefa.prioridade;
+
+        const tdCategoria = document.createElement("td");
+        tdCategoria.textContent = tarefa.categoria;
+
+        const tdAcoes = document.createElement("td");
+        
+        const btnExcluir = document.createElement("button");
+
+        btnExcluir.textContent = "Excluir";
+        btnExcluir.addEventListener("click", function () {
+            excluirTarefa(tarefa.id);
+        });
+
+        const btnConcluir = document.createElement("button");
+
+        btnConcluir.textContent = tarefa.concluida ? "Reabrir" : "Concluir";
+        btnConcluir.addEventListener("click", function () {
+            alternarConclusao(tarefa.id);
+        });
+
+        tdAcoes.append(btnConcluir, btnExcluir);
+
+        tr.append(tdDesc, tdPrioridade, tdCategoria, tdAcoes);
+        tbody.appendChild(tr);
+    });
+}
+
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -13,22 +81,17 @@ form.addEventListener("submit", function (event) {
         return;
     }
 
-    const tr = document.createElement("tr");
+    tarefas.push({
+        id: Date.now(),
+        descricao: descricao,
+        prioridade: prioridade.value,
+        categoria: categoria,
+        concluida: false
+    });
 
-    const tdDesc = document.createElement("td");
-    tdDesc.textContent = descricao;
-
-    const tdPrioridade = document.createElement("td");
-    tdPrioridade.textContent = prioridade.value;
-
-    const tdCategoria = document.createElement("td");
-    tdCategoria.textContent = categoria;
-
-    const tdAcoes = document.createElement("td");
-    tdAcoes.textContent = "-";
-
-    tr.append(tdDesc, tdPrioridade, tdCategoria, tdAcoes);
-    tbody.appendChild(tr);
-
+    salvar();
+    renderizar();
     form.reset();
 });
+
+renderizar();
