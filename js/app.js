@@ -1,6 +1,9 @@
 const form = document.querySelector("form");
 const tbody = document.getElementById("taskInfo");
 
+const btnSubmit = document.querySelector(".bnt");
+let idEmEdicao = null;
+
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 function salvar() {
@@ -8,6 +11,12 @@ function salvar() {
 }
 
 function excluirTarefa(id) {
+    if (idEmEdicao === id) {
+        idEmEdicao = null;
+        btnSubmit.textContent = "Adicionar";
+        form.reset();
+    }
+
     tarefas = tarefas.filter(function (tarefa) {
         return tarefa.id !== id;
     });
@@ -26,6 +35,22 @@ function alternarConclusao(id) {
 
     salvar();
     renderizar();
+}
+
+function iniciarEdicao(id) {
+    const tarefa = tarefas.find(function (t) {
+        return t.id === id;
+    });
+
+    document.getElementById("desc").value = tarefa.descricao;
+    document.querySelector(
+        'input[name="prioridade"][value="' + tarefa.prioridade + '"]'
+    ).checked = true;
+    document.getElementById("categoria").value = tarefa.categoria;
+
+    idEmEdicao = id;
+    btnSubmit.textContent = "Salvar";
+    document.getElementById("desc").focus();
 }
 
 function renderizar() {
@@ -62,7 +87,13 @@ function renderizar() {
             alternarConclusao(tarefa.id);
         });
 
-        tdAcoes.append(btnConcluir, btnExcluir);
+        const btnEditar = document.createElement("button");
+        btnEditar.textContent = "Editar";
+        btnEditar.addEventListener("click", function () {
+            iniciarEdicao(tarefa.id);
+        });
+
+        tdAcoes.append(btnEditar, btnConcluir, btnExcluir);
 
         tr.append(tdDesc, tdPrioridade, tdCategoria, tdAcoes);
         tbody.appendChild(tr);
@@ -81,6 +112,7 @@ form.addEventListener("submit", function (event) {
         return;
     }
 
+    if (idEmEdicao === null) {
     tarefas.push({
         id: Date.now(),
         descricao: descricao,
@@ -88,10 +120,23 @@ form.addEventListener("submit", function (event) {
         categoria: categoria,
         concluida: false
     });
+    } else {
+        tarefas = tarefas.map(function (tarefa) {
+            if (tarefa.id === idEmEdicao) {
+                tarefa.descricao = descricao;
+                tarefa.prioridade = prioridade.value;
+                tarefa.categoria = categoria;
+            }
+            return tarefa;
+        });
+
+        idEmEdicao = null;
+        btnSubmit.textContent = "Adicionar";
+    }
 
     salvar();
     renderizar();
     form.reset();
-});
+    });
 
 renderizar();
