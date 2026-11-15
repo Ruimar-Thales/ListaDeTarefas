@@ -13,10 +13,10 @@
     <div class="taskInput">
         <legend><strong>Cadastro de Tarefas:</strong></legend>
         <br>
-        <form action="">
+        <form action="" onsubmit="addTask()">
             <fieldset>
                 <div class="taskDesc">
-                    <label for="desc">Tarefa: </label>
+                    <label for="desc"><strong>Tarefa: </strong></label>
                     <input type="text" id="desc">
                 </div>
 
@@ -41,10 +41,39 @@
                 </div>
 
                 <div class="category">
+                    <label for="categoria"><strong>Categoria:</strong></label>
+                    <select name="categoria" id="categoria">
+                        <option value="lazer">Lazer</option>
+                        <option value="estudo">Estudo</option>
+                        <option value="trabalho">Trabalho</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
 
+                <div class="taskAdd">
+                    <br>
+                    <button class="bnt" type="submit">Adicionar</button>
                 </div>
             </fieldset>
         </form>
     </div>
+
+    <nav class="taskArea">
+        <table class="taskList">
+            <thead>
+                <tr>
+                    <th>Tarefa</th>
+                    <th>Prioridade</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody class="taskInfo" id="taskInfo">
+
+            </tbody>
+        </table>
+    </nav>
+    
 </body>
 </html>
