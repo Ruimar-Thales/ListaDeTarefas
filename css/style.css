@@ -1,3 +1,8 @@
+.filtros .ativo {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 .concluida td:not(:last-child) {
     text-decoration: line-through;
     color: gray;

@@ -4,6 +4,8 @@ const tbody = document.getElementById("taskInfo");
 const btnSubmit = document.querySelector(".bnt");
 let idEmEdicao = null;
 
+let filtroAtual = "todas";
+
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 function salvar() {
@@ -54,9 +56,15 @@ function iniciarEdicao(id) {
 }
 
 function renderizar() {
-    tbody.innerHTML = ""; // limpa a tabela antes de redesenhar
+    tbody.innerHTML = "";
 
-    tarefas.forEach(function (tarefa) {
+    const tarefasFiltradas = tarefas.filter(function (tarefa) {
+        if (filtroAtual === "pendentes") return !tarefa.concluida;
+        if (filtroAtual === "concluidas") return tarefa.concluida;
+        return true;
+    }); 
+
+    tarefasFiltradas.forEach(function (tarefa) {
         const tr = document.createElement("tr");
         if (tarefa.concluida) {
             tr.classList.add("concluida");
@@ -138,5 +146,20 @@ form.addEventListener("submit", function (event) {
     renderizar();
     form.reset();
     });
+
+const botoesFiltro = document.querySelectorAll(".filtros button");
+
+botoesFiltro.forEach(function (botao) {
+    botao.addEventListener("click", function () {
+        filtroAtual = botao.dataset.filtro;
+
+        botoesFiltro.forEach(function (b) {
+            b.classList.remove("ativo");
+        });
+        botao.classList.add("ativo");
+
+        renderizar();
+    });
+});
 
 renderizar();
