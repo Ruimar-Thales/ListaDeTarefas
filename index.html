@@ -1,11 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
+    <script src="scripts/app.js" defer></script>
+    <title>Lista de Tarefas</title>
 </head>
 <body>
-    
+    <h1>Organizador de Tarefas</h1>
+
+    <div class="taskInput">
+        <legend><strong>Cadastro de Tarefas:</strong></legend>
+        <br>
+        <form action="">
+            <fieldset>
+                <div class="taskDesc">
+                    <label for="desc">Tarefa: </label>
+                    <input type="text" id="desc">
+                </div>
+
+                <div class="taskPriority">
+                    <label"><strong>Prioridade: </strong></label>
+                    
+                    <div class="priority">
+                        <input type="radio" id="alta" name="prioridade" value="alta">
+                        <label for="alta">ALTA</label>
+                    </div>
+
+                    <div class="priority">
+                        <input type="radio" id="media" name="prioridade" value="media">
+                        <label for="media">MÉDIA</label>
+                    </div>
+
+                    <div class="priority">
+                        <input type="radio" id="baixa" name="prioridade" value="baixa">
+                        <label for="baixa">BAIXA</label>
+                    </div>
+
+                </div>
+
+                <div class="category">
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </body>
 </html>
