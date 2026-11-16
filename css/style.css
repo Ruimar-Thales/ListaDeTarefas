@@ -1,3 +1,55 @@
+* {
+    box-sizing: border-box;
+}
+
+.mensagem {
+    min-height: 1.5em;
+    font-weight: bold;
+}
+.mensagem.sucesso { color: green; }
+.mensagem.erro { color: crimson; }
+
+button { cursor: pointer; }
+button:hover { opacity: 0.8; }
+button:focus-visible {
+    outline: 2px solid #1a73e8;
+    outline-offset: 2px;
+}
+
+.filtros,
+.contadores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.taskArea { overflow-x: auto; }
+
+.taskList {
+    width: 100%;
+    border-collapse: collapse;
+}
+.taskList th,
+.taskList td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+.taskList button { margin: 2px; }
+
+.taskDesc input {
+    width: 100%;
+    max-width: 400px;
+}
+
+@media (max-width: 600px) {
+    body { padding: 8px; }
+    .category select { width: 100%; }
+}
+
+
+
 .counter span {
     margin-right: 16px;
 }

@@ -6,13 +6,31 @@ let idEmEdicao = null;
 
 let filtroAtual = "todas";
 
+const mensagem = document.getElementById("mensagem");
+let timerMensagem;
+
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+
+function mostrarMensagem(texto, tipo) {
+    mensagem.textContent = texto;
+    mensagem.className = "mensagem " + tipo;
+
+    clearTimeout(timerMensagem);
+    timerMensagem = setTimeout(function () {
+        mensagem.textContent = "";
+        mensagem.className = "mensagem";
+    }, 3000);
+}
 
 function salvar() {
     localStorage.setItem("tarefas", JSON.stringify(tarefas));
 }
 
 function excluirTarefa(id) {
+    if (!confirm("Deseja realmente excluir esta tarefa?")) {
+        return;
+    }
+
     if (idEmEdicao === id) {
         idEmEdicao = null;
         btnSubmit.textContent = "Adicionar";
@@ -25,6 +43,7 @@ function excluirTarefa(id) {
 
     salvar();
     renderizar();
+    mostrarMensagem("Tarefa excluída.", "sucesso");
 }
 
 function alternarConclusao(id) {
@@ -37,6 +56,7 @@ function alternarConclusao(id) {
 
     salvar();
     renderizar();
+    mostrarMensagem("Status da tarefa atualizado.", "sucesso");
 }
 
 function iniciarEdicao(id) {
@@ -77,6 +97,16 @@ function renderizar() {
         if (filtroAtual === "concluidas") return tarefa.concluida;
         return true;
     }); 
+
+    if (tarefasFiltradas.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 4;
+        td.textContent = "Nenhuma tarefa encontrada.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
 
     tarefasFiltradas.forEach(function (tarefa) {
         const tr = document.createElement("tr");
@@ -130,18 +160,20 @@ form.addEventListener("submit", function (event) {
     const categoria = document.getElementById("categoria").value;
 
     if (descricao === "" || prioridade === null) {
-        alert("Preencha a tarefa e escolha a prioridade.");
+        mostrarMensagem("Preencha a tarefa e escolha a prioridade.", "erro");
         return;
     }
 
     if (idEmEdicao === null) {
-    tarefas.push({
-        id: Date.now(),
-        descricao: descricao,
-        prioridade: prioridade.value,
-        categoria: categoria,
-        concluida: false
-    });
+        tarefas.push({
+            id: Date.now(),
+            descricao: descricao,
+            prioridade: prioridade.value,
+            categoria: categoria,
+            concluida: false
+        });
+        mostrarMensagem("Tarefa adicionada!", "sucesso");
+
     } else {
         tarefas = tarefas.map(function (tarefa) {
             if (tarefa.id === idEmEdicao) {
@@ -151,6 +183,7 @@ form.addEventListener("submit", function (event) {
             }
             return tarefa;
         });
+        mostrarMensagem("Tarefa atualizada!", "sucesso");
 
         idEmEdicao = null;
         btnSubmit.textContent = "Adicionar";
