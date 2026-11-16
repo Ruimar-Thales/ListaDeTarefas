@@ -1,65 +1,184 @@
+/* ===== VARIÁVEIS ===== */
+:root {
+    --papel: #fbf6e6;
+    --azul-claro: #e8f1fa;
+    --azul-borda: #b7d0e8;
+    --texto: #2b2b2b;
+    --azul: #2f6fb3;
+    --verde: #2e8540;
+    --amarelo: #d99a00;
+    --vermelho: #c0392b;
+    --cinza: #6c757d;
+    --raio: 4px;
+}
+
+/* ===== BASE ===== */
 * {
     box-sizing: border-box;
 }
 
+body {
+    font-family: poppins;
+    background: var(--papel);
+    color: var(--texto);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+h1,
+h2,
+.filtros,
+.contadores,
+.mensagem {
+    text-align: center;
+}
+
+/* ===== BOTÕES ===== */
+button {
+    font: inherit;
+    color: #FFFFFF;
+    background: var(--cinza);
+    border: none;
+    border-radius: var(--raio);
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+button:hover { 
+    opacity: 0.85; 
+    transform: scale(1.2);
+}
+
+.bnt { background: var(--azul); }
+.btn-editar { background: var(--amarelo); }
+.btn-concluir { background: var(--verde); }
+.btn-reabrir { background: var(--cinza); }
+.btn-excluir { background: var(--vermelho); }
+
+/* ===== FORMULÁRIO ===== */
+fieldset {
+    background: var(--azul-claro);
+    border: 1px solid var(--azul-borda);
+    border-radius: var(--raio);
+    padding: 16px;
+}
+
+.taskDesc,
+.taskPriority,
+.category {
+    margin-bottom: 12px;
+}
+
+.taskDesc input,
+.category select {
+    width: 100%;
+    max-width: 400px;
+    padding: 6px;
+    border: 1px solid var(--azul-borda);
+    border-radius: var(--raio);
+    background: white;
+    font: inherit;
+}
+
+.taskPriority {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+}
+
+.priority {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ===== MENSAGEM, FILTROS E CONTADORES ===== */
 .mensagem {
     min-height: 1.5em;
     font-weight: bold;
 }
-.mensagem.sucesso { color: green; }
-.mensagem.erro { color: crimson; }
-
-button { cursor: pointer; }
-button:hover { opacity: 0.8; }
-button:focus-visible {
-    outline: 2px solid #1a73e8;
-    outline-offset: 2px;
-}
+.mensagem.sucesso { color: var(--verde); }
+.mensagem.erro { color: var(--vermelho); }
 
 .filtros,
 .contadores {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    justify-content: center;
+    gap: 8px 16px;
     margin: 12px 0;
 }
 
-.taskArea { overflow-x: auto; }
+.filtros button {
+    background: transparent;
+    color: var(--texto);
+    border: 1px solid var(--azul-borda);
+}
+
+.filtros .ativo {
+    background: var(--azul);
+    color: white;
+    border-color: var(--azul);
+}
+
+/* ===== TABELA ===== */
+.taskArea {
+    background: var(--azul-claro);
+    border: 1px solid var(--azul-borda);
+    border-radius: var(--raio);
+    padding: 8px;
+    font-size: 0.85rem;
+}
 
 .taskList {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
+
+.taskList th:nth-child(2) { width: 90px; }
+.taskList th:nth-child(3) { width: 100px; }
+.taskList th:nth-child(4) { width: 110px; }
+
 .taskList th,
 .taskList td {
     padding: 8px;
     text-align: left;
-    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+    border-bottom: 1px solid var(--azul-borda);
+    overflow-wrap: anywhere;
 }
-.taskList button { margin: 2px; }
 
-.taskDesc input {
+.taskList td:nth-child(2),
+.taskList td:nth-child(3) {
+    text-transform: capitalize;
+}
+
+.taskList td button {
+    display: block;
     width: 100%;
-    max-width: 400px;
-}
-
-@media (max-width: 600px) {
-    body { padding: 8px; }
-    .category select { width: 100%; }
-}
-
-
-
-.counter span {
-    margin-right: 16px;
-}
-
-.filtros .ativo {
-    font-weight: bold;
-    text-decoration: underline;
+    margin-bottom: 4px;
 }
 
 .concluida td:not(:last-child) {
     text-decoration: line-through;
     color: gray;
+}
+
+/* ===== CELULAR ===== */
+@media (max-width: 600px) {
+    body { padding: 8px; }
+
+    .taskDesc input,
+    .category select { max-width: none; }
+
+    .taskList { font-size: 0.9rem; }
+    .taskList th:nth-child(2) { width: 70px; }
+    .taskList th:nth-child(3) { width: 75px; }
+    .taskList th:nth-child(4) { width: 90px; }
+    .taskList th,
+    .taskList td { padding: 6px 4px; }
 }

@@ -128,6 +128,7 @@ function renderizar() {
         const btnExcluir = document.createElement("button");
 
         btnExcluir.textContent = "Excluir";
+        btnExcluir.className = "btn-excluir";
         btnExcluir.addEventListener("click", function () {
             excluirTarefa(tarefa.id);
         });
@@ -135,12 +136,14 @@ function renderizar() {
         const btnConcluir = document.createElement("button");
 
         btnConcluir.textContent = tarefa.concluida ? "Reabrir" : "Concluir";
+        btnConcluir.className = tarefa.concluida ? "btn-reabrir" : "btn-concluir";
         btnConcluir.addEventListener("click", function () {
             alternarConclusao(tarefa.id);
         });
 
         const btnEditar = document.createElement("button");
         btnEditar.textContent = "Editar";
+        btnEditar.className = "btn-editar";
         btnEditar.addEventListener("click", function () {
             iniciarEdicao(tarefa.id);
         });
