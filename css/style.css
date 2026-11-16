@@ -104,7 +104,7 @@ fieldset {
 .mensagem.erro { color: var(--vermelho); }
 
 .filtros,
-.contadores {
+.counter {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
