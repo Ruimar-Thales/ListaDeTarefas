@@ -64,7 +64,7 @@ function iniciarEdicao(id) {
         return t.id === id;
     });
 
-    document.getElementById("desc").value.trim() = tarefa.descricao;
+    document.getElementById("desc").value = tarefa.descricao;
     document.querySelector(
         'input[name="prioridade"][value="' + tarefa.prioridade + '"]'
     ).checked = true;
