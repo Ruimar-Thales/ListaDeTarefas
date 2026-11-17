@@ -64,7 +64,7 @@ function iniciarEdicao(id) {
         return t.id === id;
     });
 
-    document.getElementById("desc").value = tarefa.descricao;
+    document.getElementById("desc").value.trim() = tarefa.descricao;
     document.querySelector(
         'input[name="prioridade"][value="' + tarefa.prioridade + '"]'
     ).checked = true;
@@ -158,7 +158,7 @@ function renderizar() {
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const descricao = document.getElementById("desc").value;
+    const descricao = document.getElementById("desc").value.trim();
     const prioridade = document.querySelector('input[name="prioridade"]:checked');
     const categoria = document.getElementById("categoria").value;
 
